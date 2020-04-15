@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     # Third party
     "django_extensions",
     # Local
+    "moviewarehouse.movies",
 ]
 
 MIDDLEWARE = [
@@ -114,3 +115,7 @@ MEDIA_URL = "/media/"
 
 STATIC_ROOT = "/app/static"
 MEDIA_ROOT = "/app/media"
+
+# OMDB API
+OMDB_API_KEY = os.getenv("OMDB_API_KEY")
+OMDB_API_URL = "https://www.omdbapi.com/?apikey={apikey}&t={title}&type=movie&r=json"

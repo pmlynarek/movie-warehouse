@@ -1,0 +1,3 @@
+-r staging.txt
+black==19.3b0
+pre-commit==1.17.0

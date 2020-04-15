@@ -1,0 +1,64 @@
+version: '2.4'
+services:
+  db:
+    image: "postgres:12.2-alpine"
+    restart: always
+    environment:
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    volumes:
+     - ./db/.pgdata:/var/lib/postgresql/data/
+    healthcheck:
+      test: echo 'SELECT 1' | PGPASSWORD=$POSTGRES_PASSWORD psql --host $$HOSTNAME --user $POSTGRES_USER $POSTGRES_DB
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  app:
+    build: ./app
+    image: moviewarehouse_dev_app
+    restart: always
+    ports:
+     - "8000:8000"
+    depends_on:
+     - db
+    environment:
+      DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    volumes:
+     - ./app:/app
+    healthcheck:
+      test: curl --fail http://localhost:8000/admin/login/?healthcheck || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  migrate:
+    build: ./app
+    command: sh entrypoints/migrate.sh
+    restart: on-failure
+    environment:
+      DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+  collectstatic:
+    build: ./app
+    command: sh entrypoints/collectstatic.sh
+    restart: on-failure
+    environment:
+      DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD

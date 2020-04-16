@@ -49,6 +49,7 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
     )
     body = models.TextField(_("body"))
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
 
     def __str__(self):
         return truncatechars(self.body, 160)

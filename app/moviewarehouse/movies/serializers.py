@@ -7,6 +7,17 @@ NUMBER_PATTERN = re.compile(r"\d+")
 FLOAT_NUMBER_PATTERN = re.compile(r"\d+\.\d+")
 
 
+class TopMovieSearchSerializer(serializers.Serializer):
+    date_to = serializers.DateField()
+    date_from = serializers.DateField()
+
+
+class TopMovieSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField(source="id")
+    total_comments = serializers.IntegerField()
+    rank = serializers.IntegerField()
+
+
 class MovieSearchSerializer(serializers.Serializer):
     title = serializers.CharField()
 
@@ -69,4 +80,4 @@ class MovieSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ("id", "movie", "body")
+        fields = ("id", "movie", "body", "created_at")

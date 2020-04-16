@@ -12,7 +12,7 @@ admin.site.register(Movie, MovieAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("id", "get_body")
+    list_display = ("id", "get_body", "created_at")
 
     def get_body(self, instance):
         return truncatechars(instance.body, 30)

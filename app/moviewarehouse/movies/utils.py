@@ -19,7 +19,8 @@ def get_movie_details(title: str) -> [dict, int]:
 
     try:
         response = requests.get(
-            settings.OMDB_API_URL.format(apikey=settings.OMDB_API_KEY, title=title)
+            settings.OMDB_API_URL.format(apikey=settings.OMDB_API_KEY, title=title),
+            timeout=2,
         )
 
         if not response.ok or response.json().get("Response") == "False":

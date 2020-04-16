@@ -12,10 +12,6 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 
-def lol():
-    return 9
-
-
 class MovieTest(APITestCase):
     def setUp(self):
         self.movie1 = MovieFactory()

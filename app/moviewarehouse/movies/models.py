@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext as _
 from moviewarehouse.movies.choices import RatingChoices
 
@@ -38,3 +39,16 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    movie = models.ForeignKey(
+        Movie,
+        verbose_name=_("movie"),
+        related_name="comments",
+        on_delete=models.CASCADE,
+    )
+    body = models.TextField(_("body"))
+
+    def __str__(self):
+        return truncatechars(self.body, 160)

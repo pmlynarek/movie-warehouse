@@ -1,7 +1,8 @@
 from unittest.mock import patch
 
-from moviewarehouse.movies.models import Movie
+from moviewarehouse.movies.models import Comment, Movie
 from moviewarehouse.movies.tests.factories import (
+    CommentFactory,
     MovieFactory,
     mocked_movie_data,
     mocked_movie_full_data,
@@ -12,7 +13,7 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 
-class MovieTest(APITestCase):
+class MovieViewSetTest(APITestCase):
     def setUp(self):
         self.movie1 = MovieFactory()
         self.movie2 = MovieFactory()
@@ -71,3 +72,37 @@ class MovieTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Movie.objects.count(), 3)
+
+
+class CommentViewSetTest(APITestCase):
+    def setUp(self):
+        self.comment1 = CommentFactory()
+        self.comment2 = CommentFactory()
+        self.comment3 = CommentFactory()
+
+        self.base_url = reverse("comment-list")
+
+    def test_get_listing(self):
+        response = self.client.get(self.base_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 3)
+
+    def test_get_filtering(self):
+        comment = CommentFactory()
+        response = self.client.get(f"{self.base_url}?movie_id={comment.movie_id}")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 1)
+
+    def test_post_create_comment(self):
+        movie = MovieFactory()
+        body = "Test body"
+
+        response = self.client.post(
+            self.base_url, data={"body": body, "movie": movie.id}
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["body"], body)
+        self.assertEqual(Comment.objects.count(), 4)

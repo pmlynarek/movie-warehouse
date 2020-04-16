@@ -1,6 +1,5 @@
-from factory import Faker, django
+from factory import Faker, SubFactory, django
 from rest_framework import status
-from rest_framework.response import Response
 
 
 class MovieFactory(django.DjangoModelFactory):
@@ -25,6 +24,14 @@ class MovieFactory(django.DjangoModelFactory):
     awards = Faker("word")
     production = Faker("word")
     website = Faker("url")
+
+
+class CommentFactory(django.DjangoModelFactory):
+    class Meta:
+        model = "movies.Comment"
+
+    body = Faker("word")
+    movie = SubFactory(MovieFactory)
 
 
 class MockResponse:

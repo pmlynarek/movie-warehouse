@@ -124,6 +124,18 @@ class TopMovieViewSetTest(APITestCase):
         self.assertEqual(response.data["results"][3]["rank"], 3)
         self.assertEqual(response.data["results"][3]["total_comments"], 2)
 
+    def test_get_listings_no_date_from(self):
+        date_to = (datetime.now() + timedelta(days=15)).strftime("%Y-%m-%d")
+        response = self.client.get(f"{self.base_url}?date_to={date_to}")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_listings_no_date_to(self):
+        date_from = (datetime.now() - timedelta(days=15)).strftime("%Y-%m-%d")
+        response = self.client.get(f"{self.base_url}?date_from={date_from}")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class CommentViewSetTest(APITestCase):
     def setUp(self):

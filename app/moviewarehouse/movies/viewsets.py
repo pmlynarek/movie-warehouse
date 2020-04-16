@@ -1,7 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from moviewarehouse.movies.filters import MovieFilter
-from moviewarehouse.movies.models import Movie
-from moviewarehouse.movies.serializers import MovieSearchSerializer, MovieSerializer
+from moviewarehouse.movies.models import Comment, Movie
+from moviewarehouse.movies.serializers import (
+    CommentSerializer,
+    MovieSearchSerializer,
+    MovieSerializer,
+)
 from moviewarehouse.movies.utils import get_movie_details
 from rest_framework import status as rest_status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
@@ -26,3 +30,10 @@ class MovieViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
 
         headers = self.get_success_headers(data)
         return Response(data, status=status, headers=headers)
+
+
+class CommentViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ("movie_id",)

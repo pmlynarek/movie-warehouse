@@ -1,6 +1,6 @@
 import re
 
-from moviewarehouse.movies.models import Movie
+from moviewarehouse.movies.models import Comment, Movie
 from rest_framework import serializers
 
 NUMBER_PATTERN = re.compile(r"\d+")
@@ -64,3 +64,9 @@ class MovieSerializer(serializers.ModelSerializer):
             "created_at",
         )
         extra_kwargs = {"title": {"validators": []}}
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ("id", "movie", "body")

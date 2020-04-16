@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third party
     "django_extensions",
+    "django_filters",
     # Local
     "moviewarehouse.movies",
 ]
@@ -113,9 +114,15 @@ USE_TZ = True
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
-STATIC_ROOT = "/app/static"
-MEDIA_ROOT = "/app/media"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # OMDB API
 OMDB_API_KEY = os.getenv("OMDB_API_KEY")
 OMDB_API_URL = "https://www.omdbapi.com/?apikey={apikey}&t={title}&type=movie&r=json"
+
+# REST FRAMEWORK
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
+}

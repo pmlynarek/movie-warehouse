@@ -129,4 +129,6 @@ dmypy.json
 .pyre/
 
 # Local
+.DS_Store
 db
+media

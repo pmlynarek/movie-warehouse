@@ -23,7 +23,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("imdb_id", models.CharField(max_length=50, verbose_name="imdb id")),
-                ("title", models.CharField(max_length=255, verbose_name="title")),
+                (
+                    "title",
+                    models.CharField(max_length=255, unique=True, verbose_name="title"),
+                ),
                 ("plot", models.TextField(blank=True, verbose_name="plot")),
                 (
                     "year",
@@ -59,13 +62,13 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "rating",
-                    models.PositiveSmallIntegerField(
-                        blank=True, null=True, verbose_name="rating"
+                    models.DecimalField(
+                        decimal_places=1, max_digits=2, null=True, verbose_name="rating"
                     ),
                 ),
                 (
                     "genre",
-                    models.CharField(blank=True, max_length=75, verbose_name="genre"),
+                    models.CharField(blank=True, max_length=100, verbose_name="genre"),
                 ),
                 (
                     "language",
@@ -75,18 +78,17 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "country",
-                    models.CharField(blank=True, max_length=50, verbose_name="country"),
+                    models.CharField(
+                        blank=True, max_length=100, verbose_name="country"
+                    ),
                 ),
                 (
                     "director",
                     models.CharField(
-                        blank=True, max_length=50, verbose_name="director"
+                        blank=True, max_length=255, verbose_name="director"
                     ),
                 ),
-                (
-                    "writer",
-                    models.CharField(blank=True, max_length=50, verbose_name="writer"),
-                ),
+                ("writer", models.TextField(blank=True, verbose_name="writer")),
                 (
                     "actors",
                     models.CharField(blank=True, max_length=255, verbose_name="actors"),
@@ -97,17 +99,12 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "poster",
-                    models.ImageField(
-                        blank=True,
-                        null=True,
-                        upload_to="posters",
-                        verbose_name="poster",
-                    ),
+                    models.URLField(blank=True, max_length=255, verbose_name="poster"),
                 ),
                 (
                     "production",
                     models.CharField(
-                        blank=True, max_length=50, verbose_name="production"
+                        blank=True, max_length=100, verbose_name="production"
                     ),
                 ),
                 ("website", models.URLField(blank=True, verbose_name="website")),

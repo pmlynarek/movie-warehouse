@@ -1,6 +1,9 @@
 import logging
 import os
 
+import sentry_sdk  # NOQA
+from sentry_sdk.integrations.django import DjangoIntegration  # NOQA
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.debug("loading settings dev.py")
@@ -11,13 +14,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "XXX")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
 # Application definition
 

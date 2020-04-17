@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext as _
+
 from moviewarehouse.movies.choices import RatingChoices
 
 

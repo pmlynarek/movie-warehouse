@@ -1,7 +1,8 @@
 import re
 
-from moviewarehouse.movies.models import Comment, Movie
 from rest_framework import serializers
+
+from moviewarehouse.movies.models import Comment, Movie
 
 NUMBER_PATTERN = re.compile(r"\d+")
 FLOAT_NUMBER_PATTERN = re.compile(r"\d+\.\d+")

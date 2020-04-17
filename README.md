@@ -15,21 +15,25 @@ Simple test application to store and search data about movies. You can also add 
 
 ## Quickstart guide
 
-Start the project:
+To start the project:
 
     make up
 
-Bring project down:
+To shut down the project:
 
     make down
 
-To test the project run:
+To test the project:
 
     make test
 
-To build project:
+To build the project:
 
     make build
+
+To deploy the project:
+
+    make deploy_heroku
 
 ## Documentation
 

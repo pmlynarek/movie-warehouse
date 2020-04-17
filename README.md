@@ -1,6 +1,6 @@
 # Welcome to movie-warehouse
 
-Simple test application to storing and looking for data about movies. You can also add some comments to your downloaded movies and get top movies(ranking is determined by count of comments).
+Simple test application to store and search data about movies. You can also add some comments to your downloaded movies and get top movies(ranking is determined by count of comments).
 
 ## Requirements
 

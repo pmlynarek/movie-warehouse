@@ -1,16 +1,18 @@
 import logging
+from typing import Tuple
 
 import requests
 from django.conf import settings
+from rest_framework import status
+
 from moviewarehouse.movies.models import Movie
 from moviewarehouse.movies.serializers import MovieSerializer
-from rest_framework import status
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-def get_movie_details(title: str) -> [dict, int]:
+def get_movie_details(title: str) -> Tuple[dict, int]:
     try:
         movie = Movie.objects.get(title__iexact=title)
         return MovieSerializer(instance=movie).data, status.HTTP_200_OK

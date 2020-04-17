@@ -1,6 +1,11 @@
 from django.db.models import Count, F, Q, Window
 from django.db.models.functions.window import DenseRank
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status as rest_status
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
+
 from moviewarehouse.movies.filters import MovieFilter
 from moviewarehouse.movies.models import Comment, Movie
 from moviewarehouse.movies.serializers import (
@@ -11,21 +16,18 @@ from moviewarehouse.movies.serializers import (
     TopMovieSerializer,
 )
 from moviewarehouse.movies.utils import get_movie_details
-from rest_framework import status as rest_status
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
-from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
 
 
 class TopMovieViewSet(ListModelMixin, GenericViewSet):
     queryset = Movie.objects.all()
     serializer_class = TopMovieSerializer
 
-    def list(self, request, *args, **kwargs):
-        serializer = TopMovieSearchSerializer(data=request.GET)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        serializer = TopMovieSearchSerializer(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
 
-        queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.annotate(
             total_comments=Count(
                 "comments",
@@ -39,13 +41,7 @@ class TopMovieViewSet(ListModelMixin, GenericViewSet):
             rank=Window(expression=DenseRank(), order_by=F("total_comments").desc()),
         )
 
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return queryset
 
 
 class MovieViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):

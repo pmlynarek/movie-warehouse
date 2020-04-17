@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
+from rest_framework import status
+from rest_framework.reverse import reverse
+from rest_framework.test import APITestCase
+
 from moviewarehouse.movies.models import Comment, Movie
 from moviewarehouse.movies.tests.factories import (
     CommentFactory,
@@ -9,9 +13,6 @@ from moviewarehouse.movies.tests.factories import (
     mocked_movie_full_data,
     mocked_movie_not_found,
 )
-from rest_framework import status
-from rest_framework.reverse import reverse
-from rest_framework.test import APITestCase
 
 
 class MovieViewSetTest(APITestCase):

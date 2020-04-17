@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     # Third party
     "django_extensions",
     "django_filters",
+    "drf_yasg",
     # Local
     "moviewarehouse.movies",
 ]

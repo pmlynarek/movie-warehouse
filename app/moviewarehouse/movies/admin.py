@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext as _
+
 from moviewarehouse.movies.models import Comment, Movie
 
 

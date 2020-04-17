@@ -1,6 +1,6 @@
 # Welcome to movie-warehouse
 
-Simple test application to storing and looking for data about movies. You can also add some comments to your downloaded movies and get top movies(ranking is determined by count of comments).
+Simple test application to store and search data about movies. You can also add some comments to your downloaded movies and get top movies(ranking is determined by count of comments).
 
 ## Requirements
 
@@ -15,21 +15,25 @@ Simple test application to storing and looking for data about movies. You can al
 
 ## Quickstart guide
 
-Start the project:
+To start the project:
 
     make up
 
-Bring project down:
+To shut down the project:
 
     make down
 
-To test the project run:
+To test the project:
 
     make test
 
-To build project:
+To build the project:
 
     make build
+
+To deploy the project:
+
+    make deploy_heroku
 
 ## Documentation
 

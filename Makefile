@@ -19,5 +19,6 @@ deploy_heroku:
 	docker push registry.heroku.com/moviewarehouse-app/web:latest
 	heroku container:release -a moviewarehouse-app web
 	heroku run python manage.py migrate -a moviewarehouse-app
+	heroku run python manage.py collectstatic --noinput -a moviewarehouse-app
 
 .PHONY: up down test build deploy_heroku
